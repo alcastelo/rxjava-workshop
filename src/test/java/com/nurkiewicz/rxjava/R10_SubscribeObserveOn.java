@@ -100,7 +100,6 @@ public class R10_SubscribeObserveOn {
      * Hint: ThreadFactoryBuilder
      */
     private Scheduler myCustomScheduler() {
-
         final ThreadFactory factoryBuilder = new ThreadFactoryBuilder().setNameFormat("CustomExecutor-%d").build();
         final ExecutorService service = Executors.newFixedThreadPool(10, factoryBuilder);
         return Schedulers.from(service);

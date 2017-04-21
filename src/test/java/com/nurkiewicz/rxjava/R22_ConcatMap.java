@@ -19,8 +19,12 @@ public class R22_ConcatMap {
 	public void downloadSequentially() throws Exception {
 		//TODO Change flatMap to concatMap
 		Urls
+
+				//concatmapEager (eager->ansioso)
+
 				.all()
-				.flatMap(u -> UrlDownloader.downloadAsync(u, Schedulers.io()))
+				.concatMapEager(u -> UrlDownloader.downloadAsync(u, Schedulers.io()))
+				//.flatMap(u -> UrlDownloader.downloadAsync(u, Schedulers.io()))
 				.test()
 				.await();
 	}
