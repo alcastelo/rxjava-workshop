@@ -8,10 +8,10 @@ import org.reactivestreams.Subscriber;
  */
 public class Contenedor extends Flowable<Contenedor> {
     String Uri;
-    Flowable<String> Html;
+    String Html;
 
 
-    public Contenedor(String uri, Flowable<String> html) {
+    public Contenedor(String uri, String html) {
         Uri = uri;
         Html = html;
     }
@@ -25,7 +25,7 @@ public class Contenedor extends Flowable<Contenedor> {
     }
 
     public String getHtml() {
-        return Html;
+        return String.valueOf(Html);
     }
 
     public void setHtml(String html) {

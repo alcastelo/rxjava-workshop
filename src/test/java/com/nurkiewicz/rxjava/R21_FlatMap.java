@@ -4,6 +4,7 @@ import com.nurkiewicz.rxjava.util.UrlDownloader;
 import com.nurkiewicz.rxjava.util.Urls;
 import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -36,13 +37,20 @@ public class R21_FlatMap {
                         .subscribeOn(Schedulers.io())); //ojo al subscribeon
 
 
+        //Pair<String, Integer> gel = Pair.of("Not Unique key1", 1);
 
+        Flowable<Pair<String, Flowable<String>>> gel = urls.map(s -> {
+            return Pair.of(s.toURI().toString(), UrlDownloader.download(s));
+        });
 
+        gel.subscribe(System.out::println);
 
+/*
         final Flowable<Contenedor> htmls2 = urls
                 .concatMap(url -> crearContenedor(url)
                         .subscribeOn(Schedulers.io())); //ojo al subscribeon
         htmls2.subscribe(System.out::println);
+*/
 
 
         TimeUnit.SECONDS.sleep(20);
@@ -58,7 +66,6 @@ public class R21_FlatMap {
         Map<URI, String> bodies = new HashMap<>();
 
 
-
         //then
         assertThat(bodies).hasSize(996);
         assertThat(bodies).containsEntry(new URI("http://www.twitter.com"), "<html>www.twitter.com</html>");
@@ -66,14 +73,7 @@ public class R21_FlatMap {
         assertThat(bodies).containsEntry(new URI("http://www.mozilla.org"), "<html>www.mozilla.org</html>");
     }
 
-    private Flowable<Contenedor> crearContenedor(URL url) {
-        try {
-            return new Contenedor(url.toURI().toString(), UrlDownloader.download(url));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
 
-    }
 
     /**
      * Hint: flatMap with int parameter
